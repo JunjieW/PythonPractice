@@ -47,3 +47,77 @@ for line in fh:
     else: continue
         
 print "Average spam confidence:", total/count
+
+
+########################################################################
+# 8.4 Open the file romeo.txt and read it line by line. For each line, 
+# split the line into a list of words using the split() method. The 
+# program should build a list of words. For each word on each line check 
+# to see if the word is already in the list and if not append it to the 
+# list. When the program completes, sort and print the resulting words 
+# in alphabetical order.
+# You can download the sample data at http://www.pythonlearn.com/code/romeo.txt
+########################################################################
+fname = raw_input("Enter file name: ")
+fh = open(fname)
+lst = list()
+for line in fh:
+    for word in line.strip().split():
+        if word not in lst:
+            lst.append(word)
+            
+lst.sort()
+print lst
+
+
+
+########################################################################
+# 8.5 Open the file mbox-short.txt and read it line by line. When you 
+# find a line that starts with 'From ' like the following line:
+#       From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008
+# You will parse the From line using split() and print out the second 
+# word in the line (i.e. the entire address of the person who sent the 
+# message). Then print out a count at the end.
+# Hint: make sure not to include the lines that start with 'From:'.
+########################################################################
+
+You can download the sample data at http://www.pythonlearn.com/code/mbox-short.txt
+
+fname = raw_input("Enter file name: ")
+if len(fname) < 1 : fname = "mbox-short.txt"
+fh = open(fname)
+count = 0
+mlist = list()
+for line in fh:
+	if line.startswith("From") and not line.startswith("From:"):
+		print line.split()[1]
+		count += 1
+print "There were", count, "lines in the file with From as the first word"
+
+
+########################################################################
+# 9.4 Write a program to read through the mbox-short.txt and figure out 
+# who has the sent the greatest number of mail messages. The program 
+# looks for 'From ' lines and takes the second word of those lines as 
+# the person who sent the mail. The program creates a Python dictionary 
+# that maps the sender's mail address to a count of the number of times 
+# they appear in the file. After the dictionary is produced, the program
+# reads through the dictionary using a maximum loop to find the most 
+# prolific committer.
+########################################################################
+name = raw_input("Enter file:")
+if len(name) < 1 : name = "mbox-short.txt"
+handle = open(name)
+wordCount = dict()
+maxCount = 0
+key = ''
+for line in handle:
+    if line.startswith('From') and not line.startswith('From:'):
+        cKey = line.split()[1]
+        wordCount[cKey] = wordCount.get(cKey, 0) + 1
+        if (wordCount.get(cKey) > maxCount):
+			key = cKey        
+    else:
+		continue
+		
+print key, wordCount.get(key)
